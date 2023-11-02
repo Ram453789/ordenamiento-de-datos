@@ -1,0 +1,115 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int find(int b[], int l) {
+    int a, index;
+    a = 1000000;
+    index = -1;
+    for (int i = 0; i < l; i++) {
+        if (b[i] < a) {
+            a = b[i];
+            index = i;
+        }
+    }
+    return index;
+}
+
+int main() {
+    int i, j, n, posa = 0, na = 0;
+
+    srand(time(NULL));
+
+    printf("Numero de elementos a ordenar: ");
+    scanf("%d", &n);
+
+    int lista[n];
+    printf("Lista sin ordenar\n");
+
+    int min = 31; 
+    int max = 0; 
+
+    for (i = 0; i < n; i++) {
+        lista[i] = rand() % 30 + 1;
+        printf(" %d ", lista[i]);
+
+        if (lista[i] < min) {
+            min = lista[i];
+        }
+        if (lista[i] > max) {
+            max = lista[i];
+        }
+    }
+    printf("\n");
+
+    int frecuencias[30];
+    for (i = 0; i < 30; i++) {
+        frecuencias[i] = 0;
+    }
+
+
+    for (i = 0; i < n; i++) {
+        frecuencias[lista[i] - 1]++;
+    }
+
+    printf("Lista ordenada\n");
+    for (i = 0; i < n; i++) {
+        printf(" %d ", lista[i]);
+    }
+    printf("\nValor minimo: %d\n", min);
+    printf("Valor maximo: %d\n", max);
+
+    int b[n];
+    for (i = 0; i < n; i++) {
+        b[i] = lista[i];
+    }
+
+    float media = 0;
+    for (i = 0; i < n; i++) {
+        media += lista[i];
+    }
+    media /= n;
+
+    printf("\nMedia: %.2lf", media);
+
+    float mediana;
+    if (n % 2 == 0) {
+        mediana = (lista[n / 2 - 1] + lista[n / 2]) / 2.0;
+    } else {
+        mediana = lista[n / 2];
+    }
+
+    printf("\nMediana: %.2lf", mediana);
+
+    int moda = b[0];
+    int modac = 1;
+    int c = b[0];
+    int cc = 1;
+    for (i = 1; i < n; i++) {
+        if (b[i] == c) {
+            cc++;
+        } else {
+            if (cc > modac) {
+                moda = c;
+                modac = cc;
+            }
+            c = b[i];
+            cc = 1;
+        }
+    }
+    if (cc > modac) {
+        moda = c;
+    }
+
+    printf("\nModa: %d\n", moda);
+
+    printf("Histograma:\n");
+    for (i = 0; i < 30; i++) {
+        printf("%d: ", i + 1);
+        float probabilidad =100* frecuencias[i] / 30;
+        for (j = 0; j < probabilidad; j++) {
+            printf("*");
+        }
+        printf("\n");
+    }
+}
